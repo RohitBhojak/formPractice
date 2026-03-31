@@ -49,22 +49,27 @@ exports.usersCreatePost = [
   },
 ];
 
-exports.userUpdateGet = (req, res) => {
+exports.usersUpdateGet = (req, res) => {
   usersStorage.getUser(req.params.id);
   res.render("updateUser", { title: "Update User", user: user });
 };
 
-exports.userUpdatePost = [
+exports.usersUpdatePost = [
   validateUser,
   (req, res) => {
-    const user = userStorage.getUser(req.param.id);
+    const user = usersStorage.getUser(req.param.id);
     const errors = validationResult(user);
     if (!errors.isEmpty()) {
       return res.status(400).render("updateUser", { title: "Update User", user: user, errors: errors.array() });
     }
 
     const { firstName, lastName } = matchedData(req);
-    userStorage.updateUser(req.params.id, { firstName, lastName });
+    usersStorage.updateUser(req.params.id, { firstName, lastName });
     res.redirect("/");
   },
 ];
+
+exports.usersDeletePost = (req, res) => {
+  usersStorage.deleteUser(req.params.id);
+  res.redirect("/");
+};
