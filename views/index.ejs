@@ -8,8 +8,13 @@
 
 <body>
   <h1><%= title %></h1>
+  <form action="/search" method="get">
+    <label for="search">Search: </label>
+    <input type="text" name="search" id="search" value="<%= locals.search %>" required />
+    <button type="submit">Search</button>
+  </form>
   <ul>
-    <% if (locals.users) {%>
+    <% if (locals.users && Object.keys(locals.users).length > 0) {%>
     <% users.forEach(user => { %>
     <li>
       ID: <%= user.id %>, Name: <%= user.firstName %> <%= user.lastName %>, Email: <%= user.email %>, Age: <%= user.age %>, Bio <%= user.bio %>
@@ -19,9 +24,15 @@
       </form>
     </li>
     <% }); %>
+    <% } else if (locals.search) {%>
+    <p>No such name found</p>
     <% } %>
   </ul>
+  <% if (locals.search) { %>
+  <a href="/">Clear Search</a>
+  <% } %>
   <a href="/create">Create a user</a>
+
 </body>
 
 </html>
