@@ -25,6 +25,7 @@ const validateUser = [
   body("email").trim().isEmail().withMessage(`Email ${emailErr}`),
   body("age")
     .trim()
+    .optional({ values: "falsy" })
     .isNumeric()
     .withMessage(`Age ${numErr}`)
     .isInt({ min: 18, max: 120 })
