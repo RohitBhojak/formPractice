@@ -18,6 +18,14 @@ class UsersStorage {
     return this.storage[id];
   }
 
+  getUsersByName(name) {
+    const query = name.trim().toLowerCase();
+    return Object.values(this.storage).filter(
+      (user) =>
+        user.firstName.toLowerCase().includes(query) || user.lastName.toLowerCase().includes(query),
+    );
+  }
+
   updateUser(id, { firstName, lastName, email, age = null, bio = null }) {
     this.storage[id] = { id, firstName, lastName, email, age, bio };
   }
