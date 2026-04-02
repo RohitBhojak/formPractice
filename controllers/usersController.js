@@ -2,22 +2,34 @@
 const usersStorage = require("../storages/usersStorage");
 const { body, validationResult, matchedData } = require("express-validator");
 
-const alphaErr = "Name must contain only alphabets";
-const lengthErr = "Name must be between 1 to 10 characters";
+const alphaErr = "must contain only alphabets";
+const lengthErr = "must be between 1 to 10 characters";
+const emailErr = "must be in the form abcd@example.com";
+const numErr = "must be a number";
+const ageErr = "must be between 18 to 120";
+const bioErr = "must be below 200 characters";
 
 const validateUser = [
   body("firstName")
     .trim()
     .isAlpha()
-    .withMessage(`first name ${alphaErr}`)
+    .withMessage(`First name ${alphaErr}`)
     .isLength({ min: 1, max: 10 })
-    .withMessage(`first name ${lengthErr}`),
+    .withMessage(`First name ${lengthErr}`),
   body("lastName")
     .trim()
     .isAlpha()
-    .withMessage(`last name ${alphaErr}`)
+    .withMessage(`Last name ${alphaErr}`)
     .isLength({ min: 1, max: 10 })
-    .withMessage(`last name ${lengthErr}`),
+    .withMessage(`Last name ${lengthErr}`),
+  body("email").trim().isEmail().withMessage(`Email ${emailErr}`),
+  body("age")
+    .trim()
+    .isNumeric()
+    .withMessage(`Age ${numErr}`)
+    .isInt({ min: 18, max: 120 })
+    .withMessage(`Age ${ageErr}`),
+  body("bio").trim().isLength({ max: 200 }).withMessage(`Bio ${bioErr}`),
 ];
 
 exports.usersListGet = (req, res) => {
@@ -60,7 +72,9 @@ exports.usersUpdatePost = [
     const user = usersStorage.getUser(req.params.id);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).render("updateUser", { title: "Update User", user: user, errors: errors.array() });
+      return res
+        .status(400)
+        .render("updateUser", { title: "Update User", user: user, errors: errors.array() });
     }
 
     const { firstName, lastName } = matchedData(req);
