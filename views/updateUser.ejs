@@ -1,23 +1,50 @@
-<!-- views/updateUser.ejs -->
 <!DOCTYPE html>
-<html>
-
-<head>
-  <title><%= title %></title>
-</head>
-
+<html lang="en">
+<%- include("partials/head.ejs") %>
 <body>
-  <h1><%= title %></h1>
-  <%- include("partials/errors.ejs") %>
-  <form action="/<%= user.id %>/update" method="POST">
-    <input type="text" name="firstName" value="<%= user.firstName %>" required />
-    <input type="text" name="lastName" value="<%= user.lastName %>" required />
-    <input type="email" name="email" value="<%= user.email %>" required />
-    <input type="number" name="age" value="<%= user.age %>" />
-    <textarea name="bio"><%= user.bio %></textarea>
-    <button type="submit">Update User</button>
-  </form>
-  <a href="/">Back to home</a>
-</body>
+  <div class="app-container">
+    <header class="top-app-bar">
+      <a href="/" class="icon-btn">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      </a>
+      <h1><%= typeof title !== 'undefined' ? title : 'Update User' %></h1>
+    </header>
+    
+    <main class="content">
+      <div class="card">
+        <%- include("partials/errors.ejs") %>
+        <form action="/<%= user.id %>/update" method="POST" class="form-container">
+          <div class="input-field">
+            <input type="text" name="firstName" id="firstName" value="<%= user.firstName %>" required placeholder=" " />
+            <label for="firstName">First Name</label>
+          </div>
 
+          <div class="input-field">
+            <input type="text" name="lastName" id="lastName" value="<%= user.lastName %>" required placeholder=" " />
+            <label for="lastName">Last Name</label>
+          </div>
+
+          <div class="input-field">
+            <input type="email" name="email" id="email" value="<%= user.email %>" required placeholder=" " />
+            <label for="email">Email</label>
+          </div>
+
+          <div class="input-field">
+            <input type="number" name="age" id="age" value="<%= user.age %>" placeholder=" " />
+            <label for="age">Age</label>
+          </div>
+
+          <div class="input-field">
+            <textarea name="bio" id="bio" rows="4" placeholder=" "><%= user.bio %></textarea>
+            <label for="bio">Bio</label>
+          </div>
+          
+          <div class="form-actions">
+            <button type="submit" class="btn btn-filled">Update User</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+</body>
 </html>
